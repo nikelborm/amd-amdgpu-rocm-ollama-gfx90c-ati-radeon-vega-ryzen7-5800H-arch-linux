@@ -69,42 +69,6 @@ export CGO_CFLAGS="$CFLAGS" CGO_CPPFLAGS="$CPPFLAGS" CGO_CXXFLAGS="$CXXFLAGS" CG
 
 
 
-#cgo CFLAGS: -O2 -std=c11 -DGGML_BUILD=1 -DNDEBUG -DLOG_DISABLE_LOGS -DGGML_USE_LLAMAFILE
-#cgo CXXFLAGS: -O2 -std=c++11 -DGGML_BUILD=1 -DNDEBUG -DLOG_DISABLE_LOGS -DGGML_USE_LLAMAFILE
-
-#cgo amd64,avx CFLAGS: -mavx
-#cgo amd64,avx CXXFLAGS: -mavx
-#cgo amd64,avx2 CFLAGS: -mavx2 -mfma
-#cgo amd64,avx2 CXXFLAGS: -mavx2 -mfma
-#cgo amd64,f16c CFLAGS: -mf16c
-#cgo amd64,f16c CXXFLAGS: -mf16c
-#cgo amd64,fma CFLAGS: -mfma
-#cgo amd64,fma CXXFLAGS: -mfma
-
-#cgo avx CFLAGS: -mavx
-#cgo avx CXXFLAGS: -mavx
-
-#cgo avx2 CFLAGS: -mavx2 -mfma -mf16c
-#cgo avx2 CXXFLAGS: -mavx2 -mfma -mf16c
-
-#cgo linux CFLAGS: -D_GNU_SOURCE
-#cgo linux CXXFLAGS: -D_GNU_SOURCE
-
-#cgo linux,amd64 LDFLAGS: -L${SRCDIR}/build/Linux/amd64
-#cgo linux,amd64 LDFLAGS: -L${SRCDIR}/build/Linux/amd64
-
-#cgo linux,rocm LDFLAGS: -L/opt/rocm/lib -lpthread -ldl -lrt -lresolv
-
-#cgo rocm CFLAGS: -DGGML_USE_CUDA -DGGML_USE_HIPBLAS -DGGML_CUDA_DMMV_X=32 -DGGML_CUDA_PEER_MAX_BATCH_SIZE=128 -DGGML_CUDA_MMV_Y=1 -DGGML_BUILD=1
-#cgo rocm CXXFLAGS: -DGGML_USE_CUDA -DGGML_USE_HIPBLAS -DGGML_CUDA_DMMV_X=32 -DGGML_CUDA_PEER_MAX_BATCH_SIZE=128 -DGGML_CUDA_MMV_Y=1 -DGGML_BUILD=1
-#cgo rocm LDFLAGS: -L${SRCDIR} -lggml_rocm -lhipblas -lamdhip64 -lrocblas
-
-
-
-
-
-
-
 goflags='-buildmode=pie -trimpath -mod=readonly -modcacherw'
 ldflags="-linkmode=external -X github.com/ollama/ollama/server.mode=release"
 
@@ -132,12 +96,12 @@ go env -w "CGO_CXXFLAGS_ALLOW=-mfma|-mf16c"
 # make ggml_hipblas.so
 # go build -tags=avx,avx2,rocm .
 
-go generate -tags=oneapi,cpu,avx,avx2,rocm ./...;
+go generate -tags=avx2,rocm ./...;
 
 rm $OLLAMA_ROCM_RUNNER_LIB_DIR/libggml_rocm.so
 ln $OLLAMA_ROCM_RUNNER_LIB_DIR/libggml.so $OLLAMA_ROCM_RUNNER_LIB_DIR/libggml_rocm.so
 
-go build $goflags -ldflags="$ldflags" -tags=oneapi,cpu,avx,avx2,rocm .
+go build $goflags -ldflags="$ldflags" .
 
 
 # git clone git@github.com:segurac/force-host-alloction-APU.git $OLLAMA_HACK_PATH;

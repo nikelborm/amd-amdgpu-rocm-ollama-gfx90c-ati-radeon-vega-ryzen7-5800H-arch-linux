@@ -20,7 +20,7 @@ export HIP_PLATFORM="amd";
 export HSA_ENABLE_SDMA="0";
 export HCC_AMDGPU_TARGET="$AMDGPU_TARGET";
 export HCC_AMDGPU_TARGETS="$AMDGPU_TARGET";
-export LLAMA_HIP_UMA="0";
+export LLAMA_HIP_UMA="1";
 export LLAMA_HIPBLAS="1";
 export ROC_ENABLE_PRE_VEGA="1";
 
@@ -29,5 +29,7 @@ export OLLAMA_PATH="$temp_d/ollama";
 
 export OLLAMA_ROCM_RUNNER_LIB_DIR="$OLLAMA_PATH/dist/linux-amd64/lib/ollama/runners/rocm"
 
-export    LIBRARY_PATH="$CUDA_LD_DIR:$OLLAMA_PATH/dist/linux-amd64-rocm/lib/ollama:$OLLAMA_ROCM_RUNNER_LIB_DIR:$OLLAMA_PATH/dist/linux-amd64/lib/ollama";
-export LD_LIBRARY_PATH="$CUDA_LD_DIR:$OLLAMA_PATH/dist/linux-amd64-rocm/lib/ollama:$OLLAMA_ROCM_RUNNER_LIB_DIR:$OLLAMA_PATH/dist/linux-amd64/lib/ollama";
+export    LIBRARY_PATH="$OLLAMA_PATH/dist/linux-amd64-rocm/lib/ollama:$OLLAMA_ROCM_RUNNER_LIB_DIR:$OLLAMA_PATH/dist/linux-amd64/lib/ollama";
+export    LIBRARY_PATH="$CUDA_LD_DIR:$LIBRARY_PATH";
+export LD_LIBRARY_PATH="$OLLAMA_PATH/dist/linux-amd64-rocm/lib/ollama:$OLLAMA_ROCM_RUNNER_LIB_DIR:$OLLAMA_PATH/dist/linux-amd64/lib/ollama";
+export LD_LIBRARY_PATH="$CUDA_LD_DIR:$LD_LIBRARY_PATH";
