@@ -76,7 +76,7 @@ git pull;
 git submodule update --recursive --remote;
 git clean -Xfd ./;
 
-sed -i "s/-j8/--jobs=$CMAKE_BUILD_PARALLEL_LEVEL/" llm/generate/gen_common.sh
+sed -i "s/-j8/-j$CMAKE_BUILD_PARALLEL_LEVEL/" llm/generate/gen_common.sh
 
 # To find motherfuckers, that break your flags:
 # c; grep -inE20 '(OLLAMA_CUSTOM_ROCM_DEFS|OLLAMA_CUSTOM_CPU_DEFS|COMMON_CPU_DEFS|COMMON_CMAKE_DEFS|CMAKE_DEFS|-DLLAMA_AVX=on|-DLLAMA_AVX2=on|-DLLAMA_F16C=on|-DLLAMA_FMA=on|-DLLAMA_SSSE3=on|-DLLAMA_LTO=on|-DLLAMA_HIPBLAS=1|-DGGML_AVX=on|-DGGML_AVX2=on|-DGGML_F16C=on|-DGGML_FMA=on|-DGGML_SSSE3=on|-DGGML_LTO=on|-DGGML_HIPBLAS=1|-DLLAMA_AVX=off|-DLLAMA_AVX2=off|-DLLAMA_F16C=off|-DLLAMA_FMA=off|-DLLAMA_SSSE3=off|-DLLAMA_LTO=off|-DLLAMA_HIPBLAS=0|-DGGML_AVX=off|-DGGML_AVX2=off|-DGGML_F16C=off|-DGGML_FMA=off|-DGGML_SSSE3=off|-DGGML_LTO=off|-DGGML_HIPBLAS=0)' {llm/generate/gen_linux.sh,docs/development.md,llm/generate/gen_common.sh}
