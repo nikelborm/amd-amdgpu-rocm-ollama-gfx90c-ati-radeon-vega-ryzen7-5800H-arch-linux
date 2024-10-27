@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-. ./prepare_run.sh
+source /home/nikel/projects/amd-amdgpu-rocm-ollama-gfx90c-ati-radeon-vega-ryzen7-5800H-arch-linux/prepare_run.sh;
 
-ollama serve &;
+ollama serve &

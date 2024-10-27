@@ -20,7 +20,7 @@
 # TODO: also add patcher from here to fix stupid warnings https://github.com/ROCm/rocminfo/issues/69
 
 
-. ./common.sh
+source /home/nikel/projects/amd-amdgpu-rocm-ollama-gfx90c-ati-radeon-vega-ryzen7-5800H-arch-linux/common.sh
 
 # go clean -cache
 # rm -rf ~/.cache/ccache/;
@@ -37,8 +37,8 @@ export OLLAMA_SKIP_STATIC_GENERATE="";
 export OLLAMA_SKIP_CPU_GENERATE="";
 export OLLAMA_CPU_TARGET="cpu_avx2";
 export ARCH='x86_64';
-export OLLAMA_CUSTOM_CPU_DEFS=" -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_F16C=on -DLLAMA_FMA=on -DLLAMA_SSSE3=on -DLLAMA_LTO=on -DLLAMA_HIPBLAS=1 -DLLAMA_HIP_UMA=1 -DAMDGPU_TARGETS=gfx90c -DCMAKE_BUILD_TYPE=Release";
-export OLLAMA_CUSTOM_CPU_DEFS+=" -DGGML_AVX=on  -DGGML_AVX2=on  -DGGML_F16C=on  -DGGML_FMA=on  -DGGML_SSSE3=on  -DGGML_LTO=on  -DGGML_HIPBLAS=1  -DGGML_HIP_UMA=1";
+export OLLAMA_CUSTOM_CPU_DEFS=" -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_F16C=on -DLLAMA_FMA=on -DLLAMA_SSSE3=on -DLLAMA_LTO=on -DLLAMA_HIPBLAS=$LLAMA_HIPBLAS -DLLAMA_HIP_UMA=$LLAMA_HIP_UMA -DAMDGPU_TARGET=$AMDGPU_TARGET -DAMDGPU_TARGETS=$AMDGPU_TARGETS -DCMAKE_BUILD_TYPE=Release";
+export OLLAMA_CUSTOM_CPU_DEFS+=" -DGGML_AVX=on  -DGGML_AVX2=on  -DGGML_F16C=on  -DGGML_FMA=on  -DGGML_SSSE3=on  -DGGML_LTO=on  -DGGML_HIPBLAS=$LLAMA_HIPBLAS  -DGGML_HIP_UMA=$LLAMA_HIP_UMA";
 export LDFLAGS+=" -L$CUDA_LD_DIR";
 # To see what's supported for your cpu:
 # lscpu | grep -iE '(AVX|VNNI|AVX2|AVX512|VBMI|VNNI|FMA|NEON|ARM|FMA|F16C|VA|FP16|WASM|SIMD|BLAS|SSE3|SSSE3|VSX)';
@@ -123,7 +123,7 @@ sed -i "s/-j8/-j$CMAKE_BUILD_PARALLEL_LEVEL/" llm/generate/gen_common.sh
 # c; grep -inE20 '(OLLAMA_CUSTOM_ROCM_DEFS|OLLAMA_CUSTOM_CPU_DEFS|COMMON_CPU_DEFS|COMMON_CMAKE_DEFS|CMAKE_DEFS|-DLLAMA_AVX=on|-DLLAMA_AVX2=on|-DLLAMA_F16C=on|-DLLAMA_FMA=on|-DLLAMA_SSSE3=on|-DLLAMA_LTO=on|-DLLAMA_HIPBLAS=1|-DGGML_AVX=on|-DGGML_AVX2=on|-DGGML_F16C=on|-DGGML_FMA=on|-DGGML_SSSE3=on|-DGGML_LTO=on|-DGGML_HIPBLAS=1|-DLLAMA_AVX=off|-DLLAMA_AVX2=off|-DLLAMA_F16C=off|-DLLAMA_FMA=off|-DLLAMA_SSSE3=off|-DLLAMA_LTO=off|-DLLAMA_HIPBLAS=0|-DGGML_AVX=off|-DGGML_AVX2=off|-DGGML_F16C=off|-DGGML_FMA=off|-DGGML_SSSE3=off|-DGGML_LTO=off|-DGGML_HIPBLAS=0)' {llm/generate/gen_linux.sh,docs/development.md,llm/generate/gen_common.sh}
 
 # cd llm/llama.cpp/;
-# HIPCXX="$(hipconfig -l)/clang" HIP_PATH="$(hipconfig -R)" cmake -S . -B build -DGGML_HIPBLAS=ON -DGGML_HIP_UMA=ON -DAMDGPU_TARGETS=gfx90c -DCMAKE_BUILD_TYPE=Release \
+# HIPCXX="$(hipconfig -l)/clang" HIP_PATH="$(hipconfig -R)" cmake -S . -B build -DGGML_HIPBLAS=ON -DGGML_HIP_UMA=ON -DAMDGPU_TARGETS=gfx900 -DCMAKE_BUILD_TYPE=Release \
 #   && cmake --build build --config Release -- -j$CMAKE_BUILD_PARALLEL_LEVEL
 
 
