@@ -8,4 +8,4 @@ export OLLAMA_ORIGINS='*';
 export PATH="$OLLAMA_PATH:$PATH";
 export HSA_OVERRIDE_GFX_VERSION="9.0.0";
 
-alias ollama="env LD_PRELOAD="$OLLAMA_HACK_PATH/./libforcegttalloc.so" ollama";
+alias ollama="env LD_PRELOAD=\"$OLLAMA_HACK_PATH/./libforcegttalloc.so\" ollama";

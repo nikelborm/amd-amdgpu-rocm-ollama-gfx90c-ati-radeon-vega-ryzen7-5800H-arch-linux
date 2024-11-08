@@ -32,11 +32,11 @@ export CMAKE_BUILD_PARALLEL_LEVEL="$(nproc)";
 
 # empty string means will not be skipped
 export OLLAMA_SKIP_ONEAPI_GENERATE="";
-export OLLAMA_SKIP_CUDA_GENERATE="1";
+export OLLAMA_SKIP_CUDA_GENERATE="";
 export OLLAMA_SKIP_STATIC_GENERATE="";
 export OLLAMA_SKIP_CPU_GENERATE="";
 export OLLAMA_CPU_TARGET="cpu_avx2";
-export ARCH='x86_64';
+export ARCH='amd64';
 export OLLAMA_CUSTOM_CPU_DEFS=" -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_F16C=on -DLLAMA_FMA=on -DLLAMA_SSSE3=on -DLLAMA_LTO=on -DLLAMA_HIPBLAS=$LLAMA_HIPBLAS -DLLAMA_HIP_UMA=$LLAMA_HIP_UMA -DAMDGPU_TARGET=$AMDGPU_TARGET -DAMDGPU_TARGETS=$AMDGPU_TARGETS -DCMAKE_BUILD_TYPE=Release";
 export OLLAMA_CUSTOM_CPU_DEFS+=" -DGGML_AVX=on  -DGGML_AVX2=on  -DGGML_F16C=on  -DGGML_FMA=on  -DGGML_SSSE3=on  -DGGML_LTO=on  -DGGML_HIPBLAS=$LLAMA_HIPBLAS  -DGGML_HIP_UMA=$LLAMA_HIP_UMA";
 export LDFLAGS+=" -L$CUDA_LD_DIR";
@@ -91,15 +91,18 @@ sed -i "s/-j8/-j$CMAKE_BUILD_PARALLEL_LEVEL/" llm/generate/gen_common.sh
 #   && cmake --build build --config Release -- -j$CMAKE_BUILD_PARALLEL_LEVEL
 
 
-go env -w "CGO_CFLAGS_ALLOW=-mfma|-mf16c"
-go env -w "CGO_CXXFLAGS_ALLOW=-mfma|-mf16c"
+# go env -w "CGO_CFLAGS_ALLOW=-mfma|-mf16c"
+# go env -w "CGO_CXXFLAGS_ALLOW=-mfma|-mf16c"
 # make ggml_hipblas.so
 # go build -tags=avx,avx2,rocm .
 
-go generate -tags=avx2,rocm ./...;
+go generate ./...;
+# go generate -tags=avx2,rocm ./...;
 
-rm $OLLAMA_ROCM_RUNNER_LIB_DIR/libggml_rocm.so
-ln $OLLAMA_ROCM_RUNNER_LIB_DIR/libggml.so $OLLAMA_ROCM_RUNNER_LIB_DIR/libggml_rocm.so
+# rm $OLLAMA_RUNNERS_ROCM_LIB_DIR/libggml_rocm.so
+# ln $OLLAMA_RUNNERS_ROCM_LIB_DIR/libggml.so $OLLAMA_RUNNERS_ROCM_LIB_DIR/libggml_rocm.so
+
+make -C llama -j16
 
 go build $goflags -ldflags="$ldflags" .
 
@@ -112,3 +115,9 @@ hipcc forcegttalloc.c -o libforcegttalloc.so -shared -fPIC;
 # sudo usermod -aG render $USER;
 
 cd ~/projects/amd-amdgpu-rocm-ollama-gfx90c-ati-radeon-vega-ryzen7-5800H-arch-linux
+
+# ln -s /opt/rocm/lib/rocblas /home/nikel/projects/ollama/dist/linux-amd64-rocm/lib/ollama/rocblas
+
+# rm $OLLAMA_LIB_DIR/libtbb.so.12; ln -s /opt/intel/oneapi/2024.1/lib32/libtbb.so.12.12 $OLLAMA_LIB_DIR/libtbb.so.12
+
+# rm $OLLAMA_LIB_DIR/libsycl.so.7; ln -s /opt/intel/oneapi/2024.1/lib/libsycl.so.7 $OLLAMA_LIB_DIR/libsycl.so.7

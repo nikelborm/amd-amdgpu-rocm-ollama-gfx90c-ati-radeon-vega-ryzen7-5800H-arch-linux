@@ -27,9 +27,10 @@ export ROC_ENABLE_PRE_VEGA="1";
 export OLLAMA_HACK_PATH="$temp_d/force-host-alloction-APU";
 export OLLAMA_PATH="$temp_d/ollama";
 
-export OLLAMA_ROCM_RUNNER_LIB_DIR="$OLLAMA_PATH/dist/linux-amd64/lib/ollama/runners/rocm"
+export OLLAMA_LIB_DIR="$OLLAMA_PATH/dist/linux-amd64/lib/ollama"
+export OLLAMA_RUNNERS_ROCM_LIB_DIR="$OLLAMA_LIB_DIR/runners/rocm"
 
-export    LIBRARY_PATH="$OLLAMA_PATH/dist/linux-amd64-rocm/lib/ollama:$OLLAMA_ROCM_RUNNER_LIB_DIR:$OLLAMA_PATH/dist/linux-amd64/lib/ollama";
+export    LIBRARY_PATH="$OLLAMA_PATH/dist/linux-amd64-rocm/lib/ollama:$OLLAMA_RUNNERS_ROCM_LIB_DIR:$OLLAMA_LIB_DIR";
 export    LIBRARY_PATH="$CUDA_LD_DIR:$LIBRARY_PATH";
-export LD_LIBRARY_PATH="$OLLAMA_PATH/dist/linux-amd64-rocm/lib/ollama:$OLLAMA_ROCM_RUNNER_LIB_DIR:$OLLAMA_PATH/dist/linux-amd64/lib/ollama";
+export LD_LIBRARY_PATH="$OLLAMA_PATH/dist/linux-amd64-rocm/lib/ollama:$OLLAMA_RUNNERS_ROCM_LIB_DIR:$OLLAMA_LIB_DIR";
 export LD_LIBRARY_PATH="$CUDA_LD_DIR:$LD_LIBRARY_PATH";
