@@ -6,5 +6,5 @@ Tested on arch linux
 
 Relevant projects:
 
-1. github.com/ollama/ollama
-2. github.com/segurac/force-host-alloction-APU
+1. [ollama/ollama](https://github.com/ollama/ollama)
+2. [segurac/force-host-alloction-APU](https://github.com/segurac/force-host-alloction-APU)
