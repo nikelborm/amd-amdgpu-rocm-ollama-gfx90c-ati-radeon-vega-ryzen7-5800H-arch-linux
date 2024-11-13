@@ -102,7 +102,7 @@ go generate ./...;
 # rm $OLLAMA_RUNNERS_ROCM_LIB_DIR/libggml_rocm.so
 # ln $OLLAMA_RUNNERS_ROCM_LIB_DIR/libggml.so $OLLAMA_RUNNERS_ROCM_LIB_DIR/libggml_rocm.so
 
-make -C llama -j16
+make -C llama -j$CMAKE_BUILD_PARALLEL_LEVEL
 
 go build $goflags -ldflags="$ldflags" .
 
