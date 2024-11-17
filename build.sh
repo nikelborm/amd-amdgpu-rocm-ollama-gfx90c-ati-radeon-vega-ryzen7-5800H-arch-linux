@@ -77,8 +77,10 @@ sacs; # my special git alias, can be disabled for you
 # git clone git@github.com:ollama/ollama.git $OLLAMA_PATH
 cd $OLLAMA_PATH;
 git pull;
-# git submodule update --init --recursive;
-git submodule update --recursive --remote;
+
+# git submodule update -j$CMAKE_BUILD_PARALLEL_LEVEL --init --recursive;
+git submodule update -j$CMAKE_BUILD_PARALLEL_LEVEL --recursive --remote;
+
 git clean -Xfd ./;
 
 sed -i "s/-j8/-j$CMAKE_BUILD_PARALLEL_LEVEL/" llm/generate/gen_common.sh
