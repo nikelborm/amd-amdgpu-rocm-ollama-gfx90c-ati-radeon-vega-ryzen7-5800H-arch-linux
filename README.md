@@ -12,3 +12,7 @@ Relevant projects:
 ## UPD
 
 Fuck this shit. It worked for 30 fucking minutes and then forever died without me ever being able to reproduce the working state. If you have no discrete GPU and only this CPU, give up and buy a graphics card / rent a server. It's not worth it to attempt to make it work.
+
+## TODO
+
+1. check [rjmalagon/ollama-linux-amd-apu](https://github.com/rjmalagon/ollama-linux-amd-apu)
