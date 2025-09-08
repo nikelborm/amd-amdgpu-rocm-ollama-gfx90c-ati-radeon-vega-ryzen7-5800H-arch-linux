@@ -16,3 +16,4 @@ Fuck this shit. It worked for 30 fucking minutes and then forever died without m
 ## TODO
 
 1. check [rjmalagon/ollama-linux-amd-apu](https://github.com/rjmalagon/ollama-linux-amd-apu)
+2. check [likelovewant/ollama-for-amd](https://github.com/likelovewant/ollama-for-amd)
